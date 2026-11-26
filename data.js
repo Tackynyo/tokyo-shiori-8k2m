@@ -196,11 +196,11 @@ const TRIP_DATA = {
         },
         {
           time: "15:45",
-          title: "東京駅 到着・荷物受取・お土産購入",
+          title: "東京駅 到着・お土産購入",
           transport: "買い物（約40分）",
           category: "shopping",
           detail:
-            "1日目に預けたコインロッカーから荷物を回収し、大丸東京やグランスタでお土産を購入。",
+            "東京駅・周辺でお土産を購入。",
           memo: "",
           mapQuery: "東京駅",
           image: "./images/tokyostation.jpg",
