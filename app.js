@@ -93,6 +93,60 @@
   }
 
   /* ------------------------------------------------------------------------
+     タイムライン内画像の描画（単一 image / 複数 images 両対応）
+     ------------------------------------------------------------------------ */
+  function renderMediaHtml(item) {
+    const list = [];
+    if (Array.isArray(item.images)) {
+      item.images.forEach((img) => {
+        if (typeof img === "string" && img.trim()) {
+          list.push({ src: img.trim(), caption: "" });
+        } else if (img && img.src) {
+          list.push({ src: img.src, caption: img.caption || "" });
+        }
+      });
+    } else if (item.image && String(item.image).trim()) {
+      list.push({
+        src: String(item.image).trim(),
+        caption: item.imageCaption || "",
+      });
+    }
+
+    if (list.length === 0) return "";
+
+    const figures = list
+      .map((img) => {
+        const altText = img.caption || item.title;
+        const captionHtml = img.caption
+          ? `<figcaption class="card-image-caption">${escapeHtml(img.caption)}</figcaption>`
+          : "";
+        return `
+          <figure class="card-media">
+            <button
+              type="button"
+              class="card-image-trigger"
+              data-src="${escapeHtml(img.src)}"
+              data-caption="${escapeHtml(altText)}"
+              aria-label="画像を拡大表示：${escapeHtml(altText)}"
+            >
+              <img
+                class="card-image"
+                src="${escapeHtml(img.src)}"
+                alt="${escapeHtml(altText)}"
+                loading="lazy"
+                onerror="this.closest('.card-media').style.display='none'"
+              >
+            </button>
+            ${captionHtml}
+          </figure>
+        `;
+      })
+      .join("");
+
+    return `<div class="card-media-list${list.length > 1 ? " is-multi" : ""}">${figures}</div>`;
+  }
+
+  /* ------------------------------------------------------------------------
      タイムライン描画（1日目 / 2日目）
      ------------------------------------------------------------------------ */
   function renderDayPanel(panelId, dayData) {
@@ -103,6 +157,7 @@
       .map((item) => {
         const category = item.category || "walk";
         const icon = CATEGORY_ICONS[category] || "📍";
+        const mediaHtml = renderMediaHtml(item);
         const memoHtml = item.memo
           ? `<div class="card-memo">
                <span class="card-memo-label">ワンポイント：</span>${escapeHtml(item.memo)}
@@ -135,6 +190,7 @@
               </div>
               <h3 class="card-title">${escapeHtml(item.title)}</h3>
               <p class="card-detail">${escapeHtml(item.detail)}</p>
+              ${mediaHtml}
               ${memoHtml}
               ${mapBtnHtml}
             </article>
@@ -321,6 +377,51 @@
   }
 
   /* ------------------------------------------------------------------------
+     画像のタップ拡大表示（ライトボックス）
+     ------------------------------------------------------------------------ */
+  function initLightbox() {
+    const overlay = document.createElement("div");
+    overlay.className = "lightbox";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.hidden = true;
+    overlay.innerHTML = `
+      <div class="lightbox-inner">
+        <button type="button" class="lightbox-close" aria-label="閉じる">✕ 閉じる</button>
+        <img class="lightbox-img" src="" alt="">
+        <p class="lightbox-caption"></p>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const imgEl = overlay.querySelector(".lightbox-img");
+    const captionEl = overlay.querySelector(".lightbox-caption");
+    const closeBtn = overlay.querySelector(".lightbox-close");
+
+    function closeLightbox() {
+      overlay.hidden = true;
+      imgEl.src = "";
+    }
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest(".card-image-trigger");
+      if (!trigger) return;
+      imgEl.src = trigger.dataset.src;
+      imgEl.alt = trigger.dataset.caption || "";
+      captionEl.textContent = trigger.dataset.caption || "";
+      overlay.hidden = false;
+    });
+
+    closeBtn.addEventListener("click", closeLightbox);
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) closeLightbox();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !overlay.hidden) closeLightbox();
+    });
+  }
+
+  /* ------------------------------------------------------------------------
      初期化
      ------------------------------------------------------------------------ */
   document.addEventListener("DOMContentLoaded", () => {
@@ -331,5 +432,6 @@
     initFontSizeControl();
     initTabs();
     initScrollTop();
+    initLightbox();
   });
 })();
