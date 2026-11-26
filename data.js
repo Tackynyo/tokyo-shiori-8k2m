@@ -17,7 +17,7 @@ const TRIP_DATA = {
   days: {
     day1: {
       dateLabel: "1日目：2026年12月8日（火）",
-      theme: "築地グルメとスカイツリーの夜景",
+      theme: "築地グルメとスカイツリー＆イルミネーション",
       items: [
         {
           time: "12:12",
