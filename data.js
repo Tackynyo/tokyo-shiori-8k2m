@@ -118,7 +118,7 @@ const TRIP_DATA = {
           detail: "ホテルを出発し、徒歩で移動。",
           memo: "",
           mapQuery: "",
-          image: "",
+          image: "./images/minowa.heic",
           imageCaption: "",
         },
         {
@@ -130,7 +130,7 @@ const TRIP_DATA = {
             "ここで朝食をとった後、雷門・仲見世通り・浅草寺を散策。午前中は午後に比べて人出が落ち着いており、自分のペースで歩きやすい時間帯。",
           memo: "",
           mapQuery: "浅草寺 雷門",
-          image: "",
+          image: "./images/kaminarimon.jpg",
           imageCaption: "",
         },
         {
@@ -155,7 +155,7 @@ const TRIP_DATA = {
             "入場無料の展望フロアから、有名なスクランブル交差点や新宿・東京タワー方面のビル群をガラス越しに安全に見下ろす。",
           memo: "",
           mapQuery: "",
-          image: "",
+          image: "./images/hikarie.png",
           imageCaption: "",
         },
         {
@@ -167,7 +167,7 @@ const TRIP_DATA = {
             "駅直結のレストラン街へエレベーターで移動。地上の人混みや冷たい外気に当たらず、景色を眺めながらランチを楽しむ。",
           memo: "",
           mapQuery: "渋谷ヒカリエ",
-          image: "",
+          image: "./images/square.jpg",
           imageCaption: "",
         },
         {
@@ -179,7 +179,7 @@ const TRIP_DATA = {
             "スクランブル交差点や「忠犬ハチ公像」を見つつ、SHIBUYA TSUTAYAへ移動。沙梨ちゃんのグッズを受け取る。",
           memo: "",
           mapQuery: "忠犬ハチ公像",
-          image: "",
+          image: "./images/tsutaya.jpg",
           imageCaption: "",
         },
         {
