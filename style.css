@@ -476,6 +476,7 @@ body {
   margin-top: 12px;
 }
 
+.card-collapsible > .card-memo:first-child,
 .card-collapsible > .card-actions:first-child {
   margin-top: 0;
 }

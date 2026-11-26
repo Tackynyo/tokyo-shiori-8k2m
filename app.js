@@ -158,26 +158,26 @@
         const category = item.category || "walk";
         const icon = CATEGORY_ICONS[category] || "📍";
         const mediaHtml = renderMediaHtml(item);
-        const memoHtml = item.memo
-          ? `<div class="card-memo">
-               <span class="card-memo-label">ワンポイント：</span>${escapeHtml(item.memo)}
-             </div>`
-          : "";
-
         const hasDetail = Boolean(item.detail && String(item.detail).trim());
+        const hasMemo = Boolean(item.memo && String(item.memo).trim());
         const hasMap = Boolean(item.mapQuery && String(item.mapQuery).trim());
         let collapsibleHtml = "";
 
-        if (hasDetail || hasMap) {
+        if (hasDetail || hasMemo || hasMap) {
           const extraId = `${panelId}-extra-${idx}`;
           const closedLabel =
-            hasDetail && hasMap
+            (hasDetail || hasMemo) && hasMap
               ? "詳細・地図を見る"
-              : hasDetail
+              : hasDetail || hasMemo
               ? "詳細を見る"
               : "地図を見る";
           const detailHtml = hasDetail
             ? `<p class="card-detail">${escapeHtml(item.detail)}</p>`
+            : "";
+          const memoHtml = hasMemo
+            ? `<div class="card-memo">
+                 <span class="card-memo-label">ワンポイント：</span>${escapeHtml(item.memo)}
+               </div>`
             : "";
           const mapBtnHtml = hasMap
             ? `<div class="card-actions">
@@ -207,6 +207,7 @@
               </button>
               <div class="card-collapsible" id="${escapeHtml(extraId)}" hidden>
                 ${detailHtml}
+                ${memoHtml}
                 ${mapBtnHtml}
               </div>
             </div>
@@ -226,7 +227,6 @@
               </div>
               <h3 class="card-title">${escapeHtml(item.title)}</h3>
               ${mediaHtml}
-              ${memoHtml}
               ${collapsibleHtml}
             </article>
           </li>
