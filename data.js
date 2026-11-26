@@ -28,7 +28,7 @@ const TRIP_DATA = {
             "新幹線到着後、東京駅構内を移動し、東京メトロ丸ノ内線「東京駅」に向かう。",
           memo: "",
           mapQuery: "",
-          image: "",
+          image: "./images/tokyostation.jpg",
           imageCaption: "",
         },
         {
@@ -203,7 +203,7 @@ const TRIP_DATA = {
             "1日目に預けたコインロッカーから荷物を回収し、大丸東京やグランスタでお土産を購入。",
           memo: "",
           mapQuery: "東京駅",
-          image: "",
+          image: "./images/tokyostation.jpg",
           imageCaption: "",
         },
         {
