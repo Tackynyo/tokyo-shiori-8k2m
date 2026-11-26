@@ -82,15 +82,18 @@ const TRIP_DATA = {
         },
         {
           time: "17:30",
-          title: "東京ソラマチで夕食",
+          title: "東京ソラマチで夕食&イルミネーション",
           transport: "食事（約75分）",
           category: "food",
           detail:
-            "スカイツリー直結のソラマチ内レストラン街で、外の寒さを避けてゆっくり夕食。",
+            "スカイツリー直結のソラマチ内レストラン街で、外の寒さを避けてゆっくり夕食。その後、イルミネーションを見つつ、駅へ向かう。",
           memo: "",
           mapQuery: "東京ソラマチ",
           image: "./images/soramachi.jpg",
-          imageCaption: "",
+          images: [
+            { src: "./images/soramachi.jpg", caption: "" },
+            { src: "./images/illumination.jpg", caption: "" },
+          ],
         },
         {
           time: "19:00",
