@@ -100,7 +100,7 @@ const TRIP_DATA = {
           detail: "押上駅から地下鉄で三ノ輪駅周辺へ移動し、ホテルにチェックイン。",
           memo: "",
           mapQuery: "",
-          image: "",
+          image: "./images/toyoko.jpg",
           imageCaption: "",
         },
       ],

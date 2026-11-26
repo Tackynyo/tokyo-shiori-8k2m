@@ -228,9 +228,12 @@
   }
 
   function updateChecklistProgress(state) {
-    const total = TRIP_DATA.checklist.length;
-    const checkedCount = TRIP_DATA.checklist.filter(
-      (item) => Boolean(state[item.id])
+    const checklist = Array.isArray(TRIP_DATA.checklist)
+      ? TRIP_DATA.checklist
+      : [];
+    const total = checklist.length;
+    const checkedCount = checklist.filter((item) =>
+      Boolean(state[item.id])
     ).length;
     const progressEl = document.getElementById("checklist-progress");
     if (progressEl) {
@@ -243,8 +246,14 @@
     if (!panel) return;
 
     const state = loadChecklistState();
+    const checklist = Array.isArray(TRIP_DATA.checklist)
+      ? TRIP_DATA.checklist
+      : [];
+    const travelTips = Array.isArray(TRIP_DATA.travelTips)
+      ? TRIP_DATA.travelTips
+      : [];
 
-    const checklistHtml = TRIP_DATA.checklist
+    const checklistHtml = checklist
       .map((item) => {
         const isChecked = Boolean(state[item.id]);
         return `
@@ -263,16 +272,27 @@
       })
       .join("");
 
-    const tipsHtml = TRIP_DATA.travelTips
-      .map(
-        (tip) => `
-          <li class="tip-card">
-            <h3 class="tip-title">${escapeHtml(tip.title)}</h3>
-            <p class="tip-body">${escapeHtml(tip.body)}</p>
-          </li>
-        `
-      )
-      .join("");
+    const tipsSectionHtml =
+      travelTips.length > 0
+        ? `
+      <section class="memo-section" aria-labelledby="tips-heading">
+        <div class="section-header">
+          <h2 class="section-title" id="tips-heading">旅のワンポイントメモ</h2>
+        </div>
+        <ul class="tips-list">
+          ${travelTips
+            .map(
+              (tip) => `
+                <li class="tip-card">
+                  <h3 class="tip-title">${escapeHtml(tip.title)}</h3>
+                  <p class="tip-body">${escapeHtml(tip.body)}</p>
+                </li>
+              `
+            )
+            .join("")}
+        </ul>
+      </section>`
+        : "";
 
     panel.innerHTML = `
       <section class="memo-section" aria-labelledby="checklist-heading">
@@ -289,15 +309,7 @@
           </button>
         </div>
       </section>
-
-      <section class="memo-section" aria-labelledby="tips-heading">
-        <div class="section-header">
-          <h2 class="section-title" id="tips-heading">旅のワンポイントメモ</h2>
-        </div>
-        <ul class="tips-list">
-          ${tipsHtml}
-        </ul>
-      </section>
+      ${tipsSectionHtml}
     `;
 
     updateChecklistProgress(state);
