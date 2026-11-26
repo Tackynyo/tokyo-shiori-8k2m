@@ -154,7 +154,7 @@
     if (!panel || !dayData) return;
 
     const itemsHtml = dayData.items
-      .map((item) => {
+      .map((item, idx) => {
         const category = item.category || "walk";
         const icon = CATEGORY_ICONS[category] || "📍";
         const mediaHtml = renderMediaHtml(item);
@@ -163,19 +163,55 @@
                <span class="card-memo-label">ワンポイント：</span>${escapeHtml(item.memo)}
              </div>`
           : "";
-        const mapBtnHtml = item.mapQuery
-          ? `<div class="card-actions">
-               <a
-                 class="map-link-btn"
-                 href="${buildGoogleMapsUrl(item.mapQuery)}"
-                 target="_blank"
-                 rel="noopener noreferrer"
-               >
-                 <span aria-hidden="true">📍</span>
-                 <span>Googleマップで開く（${escapeHtml(item.mapQuery)}）</span>
-               </a>
-             </div>`
-          : "";
+
+        const hasDetail = Boolean(item.detail && String(item.detail).trim());
+        const hasMap = Boolean(item.mapQuery && String(item.mapQuery).trim());
+        let collapsibleHtml = "";
+
+        if (hasDetail || hasMap) {
+          const extraId = `${panelId}-extra-${idx}`;
+          const closedLabel =
+            hasDetail && hasMap
+              ? "詳細・地図を見る"
+              : hasDetail
+              ? "詳細を見る"
+              : "地図を見る";
+          const detailHtml = hasDetail
+            ? `<p class="card-detail">${escapeHtml(item.detail)}</p>`
+            : "";
+          const mapBtnHtml = hasMap
+            ? `<div class="card-actions">
+                 <a
+                   class="map-link-btn"
+                   href="${buildGoogleMapsUrl(item.mapQuery)}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                 >
+                   <span aria-hidden="true">📍</span>
+                   <span>Googleマップで開く（${escapeHtml(item.mapQuery)}）</span>
+                 </a>
+               </div>`
+            : "";
+
+          collapsibleHtml = `
+            <div class="card-toggle-wrap">
+              <button
+                type="button"
+                class="card-toggle-btn"
+                aria-expanded="false"
+                aria-controls="${escapeHtml(extraId)}"
+                data-label-closed="${escapeHtml(closedLabel)}"
+              >
+                <span class="card-toggle-icon" aria-hidden="true">▼</span>
+                <span class="card-toggle-text">${escapeHtml(closedLabel)}</span>
+              </button>
+              <div class="card-collapsible" id="${escapeHtml(extraId)}" hidden>
+                ${detailHtml}
+                ${mapBtnHtml}
+              </div>
+            </div>
+          `;
+        }
 
         return `
           <li class="timeline-item" data-category="${escapeHtml(category)}">
@@ -189,10 +225,9 @@
                 </span>
               </div>
               <h3 class="card-title">${escapeHtml(item.title)}</h3>
-              <p class="card-detail">${escapeHtml(item.detail)}</p>
               ${mediaHtml}
               ${memoHtml}
-              ${mapBtnHtml}
+              ${collapsibleHtml}
             </article>
           </li>
         `;
@@ -208,6 +243,36 @@
         ${itemsHtml}
       </ol>
     `;
+  }
+
+  /* ------------------------------------------------------------------------
+     詳細・地図の折りたたみ開閉
+     ------------------------------------------------------------------------ */
+  function initCardToggles() {
+    document.addEventListener("click", (event) => {
+      const btn = event.target.closest(".card-toggle-btn");
+      if (!btn) return;
+
+      const targetId = btn.getAttribute("aria-controls");
+      const targetEl = targetId ? document.getElementById(targetId) : null;
+      if (!targetEl) return;
+
+      const isExpanded = btn.getAttribute("aria-expanded") === "true";
+      const nextExpanded = !isExpanded;
+
+      btn.setAttribute("aria-expanded", String(nextExpanded));
+      btn.classList.toggle("is-open", nextExpanded);
+      targetEl.hidden = !nextExpanded;
+
+      const iconEl = btn.querySelector(".card-toggle-icon");
+      const textEl = btn.querySelector(".card-toggle-text");
+      if (iconEl) iconEl.textContent = nextExpanded ? "▲" : "▼";
+      if (textEl) {
+        textEl.textContent = nextExpanded
+          ? "閉じる"
+          : btn.dataset.labelClosed || "詳細を見る";
+      }
+    });
   }
 
   /* ------------------------------------------------------------------------
@@ -443,6 +508,7 @@
     renderMemoPanel();
     initFontSizeControl();
     initTabs();
+    initCardToggles();
     initScrollTop();
     initLightbox();
   });
