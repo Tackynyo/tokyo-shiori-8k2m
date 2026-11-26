@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="format-detection" content="telephone=no">
+  <title>東京 1泊2日 旅のしおり</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ヘッダー -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="header-title-group">
+          <p class="header-eyebrow" id="trip-dates">2026年12月8日（火）～ 12月9日（水）</p>
+          <h1 class="header-title" id="trip-title">東京 1泊2日 旅のしおり</h1>
+        </div>
+        <div class="font-size-control" role="group" aria-label="文字サイズ切り替え">
+          <span class="font-size-label">文字</span>
+          <button
+            type="button"
+            class="font-size-btn"
+            id="font-size-normal"
+            data-size="normal"
+            aria-pressed="true"
+          >
+            標準
+          </button>
+          <button
+            type="button"
+            class="font-size-btn"
+            id="font-size-large"
+            data-size="large"
+            aria-pressed="false"
+          >
+            大きめ
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 上部固定タブナビゲーション -->
+    <nav class="tab-nav" aria-label="しおりの切り替え">
+      <div class="tab-list" role="tablist">
+        <button
+          type="button"
+          class="tab-btn is-active"
+          id="tab-day1"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-day1"
+          data-tab="day1"
+        >
+          <span class="tab-main">1日目</span>
+          <span class="tab-sub">12/8(火)</span>
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          id="tab-day2"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-day2"
+          data-tab="day2"
+        >
+          <span class="tab-main">2日目</span>
+          <span class="tab-sub">12/9(水)</span>
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          id="tab-memo"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-memo"
+          data-tab="memo"
+        >
+          <span class="tab-main">メモ・持ち物</span>
+          <span class="tab-sub">準備リスト</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="app-main">
+      <!-- 1日目パネル -->
+      <section
+        class="tab-panel is-active"
+        id="panel-day1"
+        role="tabpanel"
+        aria-labelledby="tab-day1"
+      ></section>
+
+      <!-- 2日目パネル -->
+      <section
+        class="tab-panel"
+        id="panel-day2"
+        role="tabpanel"
+        aria-labelledby="tab-day2"
+        hidden
+      ></section>
+
+      <!-- メモ・持ち物パネル -->
+      <section
+        class="tab-panel"
+        id="panel-memo"
+        role="tabpanel"
+        aria-labelledby="tab-memo"
+        hidden
+      ></section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="app-footer">
+      <p class="footer-note">安全第一・無理のないペースで楽しい東京旅を</p>
+      <button type="button" class="scroll-top-btn" id="scroll-top-btn">
+        ▲ ページの先頭へ戻る
+      </button>
+    </footer>
+  </div>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

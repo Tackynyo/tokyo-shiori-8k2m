@@ -1,0 +1,649 @@
+/* ==========================================================================
+   東京 1泊2日 旅のしおり - スタイルシート
+   モバイルファースト・和モダン・シニア配慮の高コントラスト設計
+   ========================================================================== */
+
+:root {
+  --bg-page: #EFECE6;
+  --bg-shell: #FAF9F6;
+  --bg-card: #FFFFFF;
+  --bg-memo: #FDF5EE;
+  --bg-subtle: #F2EFE9;
+
+  --navy: #1E3A5F;
+  --navy-dark: #142842;
+  --navy-soft: #EBF0F6;
+
+  --accent: #C85A32;
+  --accent-dark: #A54522;
+  --accent-soft: #FBECE6;
+  --gold: #B68A45;
+
+  --text-main: #1F2933;
+  --text-sub: #4A5568;
+  --text-inverse: #FFFFFF;
+
+  --border-color: #E2DDD5;
+  --shadow-card: 0 2px 10px rgba(30, 58, 95, 0.07);
+  --shadow-shell: 0 0 28px rgba(20, 40, 66, 0.1);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+
+  --base-font-size: 17px;
+}
+
+/* 文字サイズ「大きめ」モード */
+html[data-font-size="large"] {
+  --base-font-size: 20px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--base-font-size);
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* スマホ幅（最大600px）中央寄せコンテナ */
+.app-shell {
+  width: 100%;
+  max-width: 600px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background-color: var(--bg-shell);
+  box-shadow: var(--shadow-shell);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   ヘッダー
+   ========================================================================== */
+.app-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: var(--text-inverse);
+  padding: 18px 16px 16px;
+  border-bottom: 3px solid var(--gold);
+}
+
+.header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.header-title-group {
+  flex: 1 1 210px;
+}
+
+.header-eyebrow {
+  margin: 0 0 4px;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: #E8D9B5;
+  font-weight: 600;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.32rem;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* 文字サイズ切り替えコントロール */
+.font-size-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(255, 255, 255, 0.14);
+  padding: 4px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.font-size-label {
+  font-size: 0.76rem;
+  color: #E8EEF5;
+  padding: 0 4px 0 6px;
+  font-weight: 600;
+}
+
+.font-size-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 7px 11px;
+  min-height: 36px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.font-size-btn[aria-pressed="true"] {
+  background-color: #FFFFFF;
+  color: var(--navy);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+
+.font-size-btn:focus-visible {
+  outline: 3px solid #F6D365;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   上部固定タブナビゲーション
+   ========================================================================== */
+.tab-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(30, 58, 95, 0.06);
+}
+
+.tab-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.tab-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  color: var(--text-sub);
+  padding: 12px 6px 10px;
+  min-height: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tab-btn::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 4px;
+  border-radius: 4px 4px 0 0;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.tab-btn.is-active {
+  color: var(--navy);
+  background-color: #F6F8FB;
+}
+
+.tab-btn.is-active::after {
+  background-color: var(--accent);
+}
+
+.tab-btn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.tab-main {
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.tab-sub {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: inherit;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   メインコンテンツ・日別ヘッダー
+   ========================================================================== */
+.app-main {
+  flex: 1;
+  padding: 18px 14px 28px;
+}
+
+.day-banner {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 6px solid var(--navy);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.day-banner-date {
+  margin: 0 0 4px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+.day-banner-theme {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   縦型タイムライン
+   ========================================================================== */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  left: 15px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--navy) 0%, var(--gold) 100%);
+  border-radius: 999px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 38px;
+  margin-bottom: 18px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 7px;
+  top: 20px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background-color: var(--bg-shell);
+  border: 4px solid var(--navy);
+  z-index: 1;
+}
+
+.timeline-item[data-category="food"] .timeline-dot,
+.timeline-item[data-category="sightseeing"] .timeline-dot {
+  border-color: var(--accent);
+}
+
+.timeline-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.card-time {
+  display: inline-block;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--navy);
+  background-color: var(--navy-soft);
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+/* 移動手段・カテゴリバッジ */
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  line-height: 1.35;
+}
+
+.badge-train,
+.badge-subway {
+  background-color: #E6EFF8;
+  color: #16406B;
+}
+
+.badge-bus {
+  background-color: #E7F4EE;
+  color: #195E42;
+}
+
+.badge-walk {
+  background-color: #F2EFE7;
+  color: #544632;
+}
+
+.badge-food {
+  background-color: #FDECE6;
+  color: #A23B1B;
+}
+
+.badge-sightseeing {
+  background-color: #FBF1DF;
+  color: #82560E;
+}
+
+.badge-shopping {
+  background-color: #F3EAF7;
+  color: #602A7A;
+}
+
+.card-title {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.card-detail {
+  margin: 0;
+  font-size: 0.96rem;
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+/* ワンポイントメモ */
+.card-memo {
+  margin-top: 12px;
+  padding: 11px 13px;
+  background-color: var(--bg-memo);
+  border: 1px solid #F0D6C4;
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  color: #5C2916;
+  line-height: 1.6;
+}
+
+.card-memo-label {
+  display: inline-block;
+  font-weight: 800;
+  color: var(--accent-dark);
+  margin-right: 4px;
+}
+
+/* Googleマップボタン */
+.card-actions {
+  margin-top: 14px;
+}
+
+.map-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 14px;
+  background-color: var(--navy);
+  color: var(--text-inverse);
+  text-decoration: none;
+  font-size: 0.94rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.map-link-btn:hover {
+  background-color: var(--navy-dark);
+}
+
+.map-link-btn:active {
+  transform: scale(0.99);
+}
+
+.map-link-btn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   メモ・持ち物タブ
+   ========================================================================== */
+.memo-section {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px 16px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-card);
+}
+
+.memo-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--bg-subtle);
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.checklist-progress {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  background-color: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checklist-item {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-shell);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checklist-item.is-checked {
+  background-color: #EEF5F0;
+  border-color: #B7D8C2;
+}
+
+.checklist-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 12px;
+  min-height: 54px;
+  cursor: pointer;
+}
+
+.checklist-checkbox {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 2px 0 0;
+  accent-color: var(--navy);
+  cursor: pointer;
+}
+
+.checklist-text {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.checklist-item.is-checked .checklist-text {
+  text-decoration: line-through;
+  color: var(--text-sub);
+}
+
+.checklist-footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reset-btn {
+  appearance: none;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-shell);
+  color: var(--text-sub);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  min-height: 40px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+/* 旅のメモリスト */
+.tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tip-card {
+  background-color: var(--bg-shell);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+
+.tip-title {
+  margin: 0 0 4px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.tip-body {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  line-height: 1.65;
+}
+
+/* ==========================================================================
+   フッター
+   ========================================================================== */
+.app-footer {
+  padding: 20px 16px 28px;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-subtle);
+}
+
+.footer-note {
+  margin: 0 0 12px;
+  font-size: 0.86rem;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.scroll-top-btn {
+  appearance: none;
+  border: 1px solid var(--navy);
+  background-color: var(--bg-card);
+  color: var(--navy);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  min-height: 44px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.scroll-top-btn:hover {
+  background-color: var(--navy-soft);
+}
+
+@media (min-width: 640px) {
+  body {
+    padding: 16px 0;
+  }
+
+  .app-shell {
+    min-height: calc(100dvh - 32px);
+    border-radius: var(--radius-lg);
+    overflow: clip;
+  }
+}
